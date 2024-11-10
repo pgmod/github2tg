@@ -81,7 +81,7 @@ func SetupRouter(bot *tgbotapi.BotAPI, db *gorm.DB) *gin.Engine {
 				}
 				messageText += "\n"
 				for _, mod := range payload.HeadCommit.Modified {
-					messageText += fmt.Sprintf("~ %s\n", mod)
+					messageText += fmt.Sprintf("* %s\n", mod)
 				}
 			}
 		}
