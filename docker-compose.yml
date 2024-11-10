@@ -9,10 +9,10 @@ services:
       POSTGRES_USER: ${DB_USER}            # Имя пользователя для доступа к базе данных
       POSTGRES_PASSWORD: ${DB_PASS}    # Пароль пользователя
       POSTGRES_DB: ${DB_NAME}              # Имя создаваемой базы данных
-    #   POSTGRES_PORT: ${DB_PORT}
+      POSTGRES_PORT: ${DB_PORT}
 
-    ports:
-      - "${DB_PORT}:5432"
+    # ports:
+    #   - "${DB_PORT}:${DB_PORT}"
 
     volumes:
       - postgres-data:/var/lib/postgresql/data
