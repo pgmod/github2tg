@@ -68,7 +68,7 @@ func SetupRouter(bot *tgbotapi.BotAPI, db *gorm.DB) *gin.Engine {
 
 		} else if payload.HeadCommit.URL != "" {
 			if payload.Before == "0000000000000000000000000000000000000000" {
-				messageText = fmt.Sprintf("%s создал ветку *%s*\n", payload.Sender.Login, payload.Ref)
+				messageText = fmt.Sprintf("%s создал [ветку](%s) *%s*\n", payload.Sender.Login, payload.Repository.HTMLURL, payload.Ref)
 			} else {
 
 				messageText = fmt.Sprintf("%s внес [изменения](%s) в ветку *%s*:\n", payload.Sender.Login, payload.HeadCommit.URL, payload.Ref)
