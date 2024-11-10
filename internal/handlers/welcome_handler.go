@@ -6,6 +6,7 @@ import (
 	"encoding/hex"
 	"fmt"
 	"log"
+	"os"
 	"telegram-welcome-bot/internal/models"
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
@@ -39,7 +40,7 @@ func HandleNewChatMember(bot *tgbotapi.BotAPI, chatMember *tgbotapi.ChatMemberUp
 		}
 
 		// Отправка приветственного сообщения
-		msg := tgbotapi.NewMessage(chatID, "Привет! Спасибо, что добавили меня в чат!\nВаш эндпоинт: /"+endpoint)
+		msg := tgbotapi.NewMessage(chatID, "Привет! Спасибо, что добавили меня в чат!\nВаш эндпоинт: "+os.Getenv("HOST")+"/"+endpoint)
 		if _, err := bot.Send(msg); err != nil {
 			log.Printf("Ошибка при отправке сообщения: %v", err)
 		}
