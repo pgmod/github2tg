@@ -16,7 +16,7 @@ COPY . .
 # Собираем проект
 RUN GOOS=linux GOARCH=amd64 go build -ldflags="-w -s" -o github2tg ./cmd/main/
 # Создаём финальный минималистичный образ
-FROM bash:alpine
+FROM bash
 
 COPY --from=builder /app/github2tg /github2tg
 
