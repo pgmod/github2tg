@@ -7,12 +7,24 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"strings"
 	"telegram-welcome-bot/internal/models"
 
 	"github.com/gin-gonic/gin"
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 	"gorm.io/gorm"
 )
+
+func escapeMarkdown(text string) string {
+	replacer := strings.NewReplacer(
+		"_", "\\_",
+		"*", "\\*",
+		"[", "\\[",
+		"]", "\\]",
+		"`", "\\`",
+	)
+	return replacer.Replace(text)
+}
 
 // SetupRouter настраивает маршруты HTTP-сервера
 func SetupRouter(bot *tgbotapi.BotAPI, db *gorm.DB) *gin.Engine {
@@ -73,15 +85,15 @@ func SetupRouter(bot *tgbotapi.BotAPI, db *gorm.DB) *gin.Engine {
 
 				messageText = fmt.Sprintf("%s внес [изменения](%s) в ветку *%s*:\n", payload.Sender.Login, payload.HeadCommit.URL, payload.Ref)
 				for _, add := range payload.HeadCommit.Added {
-					messageText += fmt.Sprintf("+ %s\n", add)
+					messageText += fmt.Sprintf("+ %s\n", escapeMarkdown(add))
 				}
 				messageText += "\n"
 				for _, rem := range payload.HeadCommit.Removed {
-					messageText += fmt.Sprintf("- %s\n", rem)
+					messageText += fmt.Sprintf("- %s\n", escapeMarkdown(rem))
 				}
 				messageText += "\n"
 				for _, mod := range payload.HeadCommit.Modified {
-					messageText += fmt.Sprintf("= %s\n", mod)
+					messageText += fmt.Sprintf("= %s\n", escapeMarkdown(mod))
 				}
 			}
 		}

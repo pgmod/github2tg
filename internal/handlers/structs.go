@@ -74,17 +74,17 @@ type Sender struct {
 }
 
 type Commit struct {
-	ID        string        `json:"id"`
-	TreeID    string        `json:"tree_id"`
-	Distinct  bool          `json:"distinct"`
-	Message   string        `json:"message"`
-	Timestamp string        `json:"timestamp"`
-	URL       string        `json:"url"`
-	Author    Author        `json:"author"`
-	Committer Author        `json:"committer"`
-	Added     []string      `json:"added"`
-	Removed   []interface{} `json:"removed"`
-	Modified  []interface{} `json:"modified"`
+	ID        string   `json:"id"`
+	TreeID    string   `json:"tree_id"`
+	Distinct  bool     `json:"distinct"`
+	Message   string   `json:"message"`
+	Timestamp string   `json:"timestamp"`
+	URL       string   `json:"url"`
+	Author    Author   `json:"author"`
+	Committer Author   `json:"committer"`
+	Added     []string `json:"added"`
+	Removed   []string `json:"removed"`
+	Modified  []string `json:"modified"`
 }
 
 type Author struct {
