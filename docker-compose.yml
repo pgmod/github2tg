@@ -1,5 +1,35 @@
 services:
-  socks:
+  postgres:
+    image: postgres:13
+    container_name: pg-db
+    env_file:
+      - .env
+    environment:
+      PGDATA: "/var/lib/postgresql/data/pgdata"
+      POSTGRES_USER: ${DB_USER}            # Имя пользователя для доступа к базе данных
+      POSTGRES_PASSWORD: ${DB_PASS}    # Пароль пользователя
+      POSTGRES_DB: ${DB_NAME}              # Имя создаваемой базы данных
+
+    ports:
+      - "${DB_NAME}:5432"
+
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+    restart: unless-stopped
+
+    networks:
+      postgres:
+        ipv4_address: ${DB_HOST}
+
+  github2tg:
     logging:
       driver: "json-file"
       options:
@@ -11,3 +41,16 @@ services:
       - .env
     command: ["/github2tg"]
     restart: always  # Перезапускать контейнер в случае падения
+
+
+volumes:
+  postgres-data:
+    name: postgres-data
+
+networks:
+  postgres:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.100.0.0/28
+          gateway: 172.100.0.1
