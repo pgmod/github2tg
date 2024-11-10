@@ -1,0 +1,13 @@
+services:
+  socks:
+    logging:
+      driver: "json-file"
+      options:
+        max-size: 20m
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    command: ["/github2tg"]
+    restart: always  # Перезапускать контейнер в случае падения
