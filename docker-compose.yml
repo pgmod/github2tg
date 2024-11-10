@@ -44,6 +44,7 @@ services:
     restart: always  # Перезапускать контейнер в случае падения
     networks:
       postgres:
+        ipv4_address: ${BOT_HOST}
 
 
 volumes:
